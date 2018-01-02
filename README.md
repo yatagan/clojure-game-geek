@@ -1,12 +1,51 @@
-# clojure-game-geek
 
-Example code for the [Lacinia](https://github.com/walmartlabs/lacinia) GraphQL framework tutorial.
+# CPU 100% issue:
 
-The tutorial is available at http://lacinia.readthedocs.io/en/latest/tutorial/
+```
+$ lein repl
+user=> (start)
+```
+Run subscriptions in graphiql:
 
-## License
+## Good case
 
-Copyright © 2017 Walmart
+```
+subscription ($user_id: ID!) {
+  compute(user_id: $user_id) {
+    id
+    member_name
+  }
+}
+```
 
-Released under the terms of the Apache Software License 2.0.
+variables:
+```
+{
+  "user_id": "dummy"
+}
+```
+
+It works fine, returns dummy result.
+
+## Bad case
+
+```
+subscription ($user_id: ID) {
+  compute(user_id: $user_id) {
+    id
+    member_name
+  }
+}
+```
+
+variables:
+```
+{
+  "user_id": "dummy"
+}
+```
+
+It's the same query, but with malformed arguments (without exclamation mark).
+
+Check your CPU :(
 

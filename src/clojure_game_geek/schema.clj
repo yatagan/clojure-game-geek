@@ -88,12 +88,22 @@
      :Designer/games (designer-games db)
      :Member/ratings (member-ratings db)}))
 
+(def streamers-map
+  {:stream-compute 
+   (fn
+       [context args source-stream]
+       ;; dummy load
+       (source-stream (schema/tag-with-type {:id "foo" :member_name "Bohdan"} :Member))
+       ;; return terminator function
+       #(source-stream nil))})
+
 (defn load-schema
   [component]
   (-> (io/resource "cgg-schema.edn")
       slurp
       edn/read-string
       (util/attach-resolvers (resolver-map component))
+      (util/attach-streamers streamers-map)
       schema/compile))
 
 (defrecord SchemaProvider [schema]

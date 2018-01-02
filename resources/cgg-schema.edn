@@ -85,4 +85,10 @@
     :member_id {:type (non-null ID)}
     :rating {:type (non-null Int)
              :description "Game rating as a number between 1 and 5."}}
-   :resolve :mutation/rate-game}}}
+   :resolve :mutation/rate-game}}
+
+ :subscriptions
+ {:compute
+  {:type   :Member
+   :args   {:user_id {:type (non-null ID)}}
+   :stream :stream-compute}}}

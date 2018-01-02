@@ -9,7 +9,8 @@
   (start [this]
     (assoc this :server (-> schema-provider
                             :schema
-                            (lp/service-map {:graphiql true})
+                            (lp/service-map {:graphiql true
+                                             :subscriptions true})
                             http/create-server
                             http/start)))
 
